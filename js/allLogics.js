@@ -1,15 +1,8 @@
 import data from "./data.js";
+import checkDatesFromContentNote from "./checkDatesFromContentNote.js";
 
 let notesList = document.getElementById("notesList");
 let activeNoteTableShown = true;
-function getDatesFromText(text) {
-  let results = text.match(
-    /[0-9]{1,2}([\-\/ \.])[0-9]{1,2}([\-\/ \.])((19)|(20))[0-9]{2}/g
-  );
-
-  if (results && results.length) return results;
-  return [];
-}
 
 function createNoteBtns(noteBtns, note) {
   const noteEditWrapper = document.createElement("div");
@@ -129,7 +122,7 @@ function checkForm(note) {
       created: typeof note.name === "string" ? note.created : inputCreated,
       category: event.target.categories.value,
       content: event.target.content.value,
-      dates: getDatesFromText(event.target.content.value),
+      dates: checkDatesFromContentNote(event.target.content.value),
       archived: typeof note.name === "string" ? note.archived : false,
     };
     // if (typeof note.name === "string") updateNote(newNote);
