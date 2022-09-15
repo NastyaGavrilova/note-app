@@ -4,7 +4,7 @@ import checkDatesFromContentNote from "./checkDatesFromContentNote.js";
 let notesList = document.getElementById("notesList");
 let activeNoteTableShown = true;
 
-function createNoteBtns(noteBtns, note) {
+function createNoteBtns(noteBtns, note, noteID) {
   const noteEditWrapper = document.createElement("div");
   const noteArchiveWrapper = document.createElement("div");
   const noteDeleteWrapper = document.createElement("div");
@@ -19,14 +19,25 @@ function createNoteBtns(noteBtns, note) {
 
   noteEditIcon.setAttribute("src", "./assets/edit.svg");
   noteEditIcon.setAttribute("alt", "Edit");
+  noteEditIcon.className = "note__edit";
+  noteDeleteIcon.className = "note__delete";
+  noteArchiveIcon.className = "note__archive";
+
+  noteEditIcon.addEventListener("click", () => {
+    checkForm(note);
+  });
+  noteDeleteIcon.addEventListener("click", () => {
+    deleteNote(noteID);
+  });
+  noteArchiveIcon.addEventListener("click", () => {
+    changeArchiveState(note);
+  });
 
   noteArchiveIcon.setAttribute("src", "./assets/archive-note.svg");
   noteArchiveIcon.setAttribute("alt", "Archive");
 
   noteDeleteIcon.setAttribute("src", "./assets/delete.svg");
   noteDeleteIcon.setAttribute("alt", "Delete");
-
-  noteEditIcon.addEventListener("click", checkForm(note));
 
   noteBtns.appendChild(noteEditWrapper);
   noteBtns.appendChild(noteArchiveWrapper);
@@ -42,9 +53,37 @@ function createNote(note) {
   refreshNotesList();
   // showAnnouncer('Note created successfully!');
 }
-
+function updateNote(note) {
+  try {
+    let index = data.findIndex((n) => n.id === note.id);
+    console.log(index);
+    if (index < 0) throw "There is no such note!";
+    data.splice(index, 1, note);
+    console.log(data.splice(index, 1, note));
+    refreshNotesList();
+    console.log("Note updated successfully!");
+  } catch (e) {
+    console.error(e);
+    console.log("Note wasn't updated!");
+  }
+}
+function deleteNote(noteID) {
+  try {
+    let index = data.findIndex((n) => n.id === noteID);
+    if (index < 0) throw "There is no such note!";
+    data.splice(index, 1);
+    document.getElementById(noteID).remove();
+    // clearInnerHTML(statisticsTable);
+    // buildStatisticTable();
+    // showAnnouncer("Note deleted successfully!");
+  } catch (e) {
+    console.error(e);
+    console.log("Note wasn't updated!");
+  }
+}
 function createLi(note) {
   const li = document.createElement("li");
+  li.id = note.id;
   li.className = "note";
   const noteWrapper = document.createElement("div");
   noteWrapper.className = "note__wrapper";
@@ -65,7 +104,7 @@ function createLi(note) {
   noteDates.textContent = note.dates;
   const noteBtns = document.createElement("div");
   noteBtns.className = "note__btns";
-  createNoteBtns(noteBtns, note);
+  createNoteBtns(noteBtns, note, note.id);
 
   li.appendChild(noteWrapper);
   li.appendChild(noteBtns);
@@ -88,10 +127,21 @@ function createNoteList() {
 }
 function checkForm(note) {
   const form = document.getElementById("noteForm");
-  // const inputNoteName = document.getElementById("noteName");
+  const inputNoteName = document.getElementById("noteName");
+  inputNoteName.textContent = note.name ? note.name : "";
   // const inputNoteCategory = document.getElementById("noteCategory");
   // const categoryValue = inputNoteCategory.value;
-  // const inputNoteContent = document.getElementById("noteContent");
+  const inputNoteContent = document.getElementById("noteContent");
+  inputNoteContent.textContent = note.content ? note.content : "";
+  const modalWindow = document.querySelector(".note__modal");
+  const overlay = document.querySelector(".overlay");
+  const cancel = document.getElementById("cancel");
+  modalWindow.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+  cancel.addEventListener("click", () => {
+    modalWindow.classList.add("hidden");
+    overlay.classList.add("hidden");
+  });
 
   const created = new Date();
   const month = created.getMonth();
@@ -125,11 +175,30 @@ function checkForm(note) {
       dates: checkDatesFromContentNote(event.target.content.value),
       archived: typeof note.name === "string" ? note.archived : false,
     };
-    // if (typeof note.name === "string") updateNote(newNote);
-    // else
-    createNote(newNote);
+    if (typeof note.name === "string") updateNote(newNote);
+    else createNote(newNote);
+    console.log(typeof Date.now === "number");
+    modalWindow.classList.add("hidden");
+    overlay.classList.add("hidden");
   };
-  console.log(typeof note.name === "string");
+}
+function changeArchiveState(note) {
+  data[data.findIndex((n) => n.id === note.id)].archived =
+    !data[data.findIndex((n) => n.id === note.id)].archived;
+  refreshNotesList();
+  // showAnnouncer(
+  //   `Note ${activeNoteTableShown ? "archived" : "unarchived"} successfully!`
+  // );
+}
+function switchTables() {
+  activeNoteTableShown = !activeNoteTableShown;
+  clearInnerHTML(notesList);
+  createNoteList();
+  document.getElementById("notesListName").innerText = activeNoteTableShown
+    ? "Active notes"
+    : "Archived notes";
+  // document.getElementsByClassName("header-icon archive")[0].innerHTML =
+  //   activeNoteTableShown ? icons.ARCHIVE_ICON : icons.UNARCHIVE_ICON;
 }
 function clearAllTables() {
   clearInnerHTML(notesList);
@@ -144,5 +213,8 @@ function refreshNotesList() {
   createNoteList();
   // buildStatisticTable();
 }
-
+document.getElementById("openModal").addEventListener("click", checkForm);
 export { refreshNotesList };
+document
+  .getElementById("headerArchive")
+  .addEventListener("click", switchTables);

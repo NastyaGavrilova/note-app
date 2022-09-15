@@ -33,6 +33,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   class="header-archive__icon"
+                  id="headerArchive"
                 >
                   <g
                     id="Icons"
@@ -106,8 +107,12 @@
             </div>
           </header>
           <div class="notes__block">
+            <h3 id="notesListName">Active Notes</h3>
             <ul class="notes__list" id="notesList"></ul>
             <button class="notes__btn-add" id="openModal">Create Note</button>
+          </div>
+          <div class = "notes__statics">
+            <ul class="notes__statics-list" id ="notesStatics"></ul>
           </div>
           <div class="note__modal hidden">
             <div class="note__wrapper-modal">
@@ -122,7 +127,7 @@
                     placeholder="Name of Note"
                     type="text"
                     id="noteName"
-                  />
+                  /></input>
                 </label>
                 <select id="noteCategory" name="categories">
                   <option value="Task">Task</option>
@@ -138,6 +143,7 @@
                   ></textarea>
                 </label>
                 <button id="addNote" type="submit">Add Note</button>
+                <button id="cancel">Cancel</button>
               </form>
             </div>
           </div>
