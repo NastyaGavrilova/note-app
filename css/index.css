@@ -49,6 +49,9 @@ body {
 .header-delete {
   cursor: pointer;
 }
+.notes__block {
+  margin-bottom: 100px;
+}
 .notes__list {
   list-style-type: none;
   margin-top: 15px;
@@ -99,6 +102,30 @@ body {
   border-radius: 4px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   z-index: 10;
+}
+.statistics-header {
+  width: 100%;
+  background: #999999;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.statistics-header__list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.statisctics-header__item {
+  font-size: 21px;
+  font-weight: 400;
+  color: white;
+}
+.statistics-header__counters {
+  display: flex;
+  max-width: 240px;
+  width: 100%;
+  justify-content: space-between;
 }
 .overlay {
   position: absolute;

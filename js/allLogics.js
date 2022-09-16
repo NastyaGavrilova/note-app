@@ -2,6 +2,7 @@ import data from "./data.js";
 import checkDatesFromContentNote from "./checkDatesFromContentNote.js";
 
 let notesList = document.getElementById("notesList");
+let statisticList = document.getElementById("notesStatics");
 let activeNoteTableShown = true;
 
 function createNoteBtns(noteBtns, note, noteID) {
@@ -73,7 +74,8 @@ function deleteNote(noteID) {
     if (index < 0) throw "There is no such note!";
     data.splice(index, 1);
     document.getElementById(noteID).remove();
-    // clearInnerHTML(statisticsTable);
+    clearInnerHTML(statisticList);
+    createStatiscticListOfNotes();
     // buildStatisticTable();
     // showAnnouncer("Note deleted successfully!");
   } catch (e) {
@@ -116,7 +118,19 @@ function createLi(note) {
 
   return li;
 }
-
+function createStatisticsNote(category, active, total) {
+  const li = document.createElement("li");
+  const noteCategory = document.createElement("p");
+  const countActiveNotes = document.createElement("p");
+  const countArchiveNotes = document.createElement("p");
+  noteCategory.textContent = category;
+  countActiveNotes.textContent = active;
+  countArchiveNotes.textContent = total - active;
+  li.appendChild(noteCategory);
+  li.appendChild(countActiveNotes);
+  li.appendChild(countArchiveNotes);
+  return li.outerHTML;
+}
 function createNoteList() {
   data.forEach((note) => {
     if (!note.archived === activeNoteTableShown) {
@@ -182,6 +196,47 @@ function checkForm(note) {
     overlay.classList.add("hidden");
   };
 }
+
+function createStatiscticListOfNotes() {
+  let Idias = 0;
+  let Qoutes = 0;
+  let RandomThought = 0;
+  let Tasks = 0;
+  let IdiasActive = 0;
+  let QoutesActive = 0;
+  let RandomThoughtActive = 0;
+  let TasksActive = 0;
+  data.forEach((note) => {
+    if (note.category === "Idea") {
+      Idias++;
+      if (!note.archived) IdiasActive++;
+    }
+    if (note.category === "Quote") {
+      Qoutes++;
+      if (!note.archived) QoutesActive++;
+    }
+    if (note.category === "Task") {
+      Tasks++;
+      if (!note.archived) TasksActive++;
+    }
+    if (note.category === "Random Thought") {
+      RandomThought++;
+      if (!note.archived) RandomThoughtActive++;
+    }
+  });
+  statisticList.innerHTML += Idias
+    ? createStatisticsNote("Idea", IdiasActive, Idias)
+    : ``;
+  statisticList.innerHTML += Qoutes
+    ? createStatisticsNote("Quote", QoutesActive, Qoutes)
+    : ``;
+  statisticList.innerHTML += Tasks
+    ? createStatisticsNote("Task", TasksActive, Tasks)
+    : ``;
+  statisticList.innerHTML += RandomThought
+    ? createStatisticsNote("Random Thought", RandomThoughtActive, RandomThought)
+    : ``;
+}
 function changeArchiveState(note) {
   data[data.findIndex((n) => n.id === note.id)].archived =
     !data[data.findIndex((n) => n.id === note.id)].archived;
@@ -211,6 +266,7 @@ function clearInnerHTML(parent) {
 function refreshNotesList() {
   clearAllTables();
   createNoteList();
+  createStatiscticListOfNotes();
   // buildStatisticTable();
 }
 document.getElementById("openModal").addEventListener("click", checkForm);
