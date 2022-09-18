@@ -1,4 +1,3 @@
-import { refreshNotesList } from "./allLogics.js";
-// import modal from "./modal.js";
+import { refreshNotesList, IconsArchiveUnarchive } from "./allLogics.js";
 refreshNotesList();
-// modal();
+IconsArchiveUnarchive()

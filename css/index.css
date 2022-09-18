@@ -9,10 +9,13 @@ body {
   margin: 0 auto;
   font-family: "Oswald", sans-serif;
 }
+
 .main {
   max-width: 1200px;
   margin: 25px auto;
+  padding: 0 25px;
 }
+
 .notes__header {
   width: 100%;
   background: #999999;
@@ -21,6 +24,7 @@ body {
   justify-content: space-between;
   border-radius: 4px;
 }
+
 .header-list {
   max-width: 950px;
   width: 100%;
@@ -29,15 +33,15 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 .header-list__item {
   max-width: 150px;
   width: 100%;
-  display: flex;
-  justify-content: center;
   font-size: 21px;
   font-weight: 400;
   color: white;
 }
+
 .header-icons {
   max-width: 80px;
   width: 100%;
@@ -45,17 +49,21 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 .header-archive,
 .header-delete {
   cursor: pointer;
 }
+
 .notes__block {
   margin-bottom: 100px;
 }
+
 .notes__list {
   list-style-type: none;
   margin-top: 15px;
 }
+
 .note {
   background: #e8eaf5;
   margin-bottom: 15px;
@@ -65,22 +73,25 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 .note__wrapper {
   max-width: 950px;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
+
 .note__field {
   max-width: 150px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 2em;
+  height: 1.5em;
   font-size: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
 }
+
 .note__btns {
   max-width: 130px;
   width: 100%;
@@ -88,21 +99,91 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.note__edit,
+.note__delete,
+.note__archive {
+  cursor: pointer;
+}
+
+.notes__btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.notes__btn-add {
+  max-width: 150px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgb(180, 173, 173);
+  background: #e8eaf5;
+  font-size: 16px;
+  cursor: pointer
+}
+
+
+
+.note__modal {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.note__form {
+  max-width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  padding: 1em;
+  gap: 15px;
+}
+
+#noteName,
+#noteCategory,
+#noteContent {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgb(112, 122, 125)
+}
+
+#noteCategory {
+  cursor: pointer;
+}
+
+#noteContent {
+  resize: none;
+  overflow-y: scroll;
+}
+
+#addNote,
+#cancel {
+  background-color: #e8eaf5;
+  max-width: 150px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgb(112, 122, 125);
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
 }
-.note__modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 70%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 6rem;
-  border-radius: 4px;
-  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-  z-index: 10;
-}
+
 .statistics-header {
   width: 100%;
   background: #999999;
@@ -110,29 +191,69 @@ body {
   border-radius: 4px;
   margin-bottom: 15px;
 }
+
 .statistics-header__list {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+
 .statisctics-header__item {
   font-size: 21px;
   font-weight: 400;
   color: white;
+  max-width: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
+
 .statistics-header__counters {
   display: flex;
   max-width: 240px;
   width: 100%;
   justify-content: space-between;
 }
+
+.notes__statics-list {
+  list-style-type: none;
+}
+
+.notes__statics-item {
+  background: #e8eaf5;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.statistics-item__paragraph {
+  max-width: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.statistics-item__wrapper {
+  display: flex;
+  max-width: 240px;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  /* left: 0; */
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(3px);
   z-index: 5;

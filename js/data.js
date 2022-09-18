@@ -1,4 +1,6 @@
-const data = [
+import * as ICONS from './archiveUnarchiveIcons.js';
+export let archiveUnArchiveIcons = ICONS;
+export const data = [
   {
     id: "1",
     name: "Shopping List",
@@ -22,8 +24,8 @@ const data = [
     name: "New Feature",
     created: "May 05, 2021",
     category: "Idea",
-    content: "Implement new...",
-    dates: "3/5/2021, 5/5/2021",
+    content: "Implement new feature in project on the 15/09/2022",
+    dates: "15/09/2022",
     archived: false,
   },
   {
@@ -45,4 +47,4 @@ const data = [
     archived: true,
   },
 ];
-export default data;
+
